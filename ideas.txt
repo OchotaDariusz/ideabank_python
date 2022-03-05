@@ -1,1 +1,1 @@
-Pierwsza;druga;trzecia;czwarta piata;szosta
+Pierwsza;druga;trzecia;czwarta piata;szosta;teraz szosta
