@@ -1,18 +1,4 @@
-import argparse
-
-
-parser = argparse.ArgumentParser()
-
-parser.add_argument('-l', '--list', help='Lists all ideas', action='store_true', required=False)
-
-parser.add_argument('-d',
-                    '--delete',
-                    type=int,
-                    help='Specify a number of idea to delete',
-                    required=False)
-
-
-args = parser.parse_args()
+import sys
 
 
 def open_ideas(file_name):
@@ -34,7 +20,7 @@ if __name__ == "__main__":
     except IndexError:
         ideas = list()
     finally:
-        if not args.list and not args.delete:
+        if len(sys.argv) == 1:
             while True:
                 if ideas:
                     for index in range(len(ideas)):
@@ -43,19 +29,22 @@ if __name__ == "__main__":
                 ideas.append(idea)
                 export_ideas("ideas.txt", ideas)
 
-        if args.list:
+        elif sys.argv[1] == "--list":
             if ideas:
                 for index in range(len(ideas)):
                     print(f"{index + 1}. {ideas[index]}")
             else:
                 print("There's no ideas!")
 
-        if args.delete:
-            if ideas:
-                try:
-                    ideas.pop(int(args.delete) - 1)
-                    export_ideas("ideas.txt", ideas)
-                except IndexError:
-                    print("There's no so many ideas!")
-            else:
-                print("There's no ideas!")
+        elif sys.argv[1] == "--delete":
+            try:
+                if ideas:
+                    try:
+                        ideas.pop(int(sys.argv[2]) - 1)
+                        export_ideas("ideas.txt", ideas)
+                    except IndexError:
+                        raise ValueError
+                else:
+                    print("There's no ideas!")
+            except ValueError:
+                print("Specify a number after --delete")
