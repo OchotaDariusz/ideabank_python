@@ -1,9 +1,17 @@
 import argparse
 
+
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--list', action='store_true', required=False)
-parser.add_argument('--delete', type=int, required=False)
+parser.add_argument('-l', '--list', help='Lists all ideas', action='store_true', required=False)
+
+parser.add_argument('-d',
+                    '--delete',
+                    type=int,
+                    help='Specify a number of idea to delete',
+                    required=False)
+
+
 args = parser.parse_args()
 
 
@@ -21,17 +29,33 @@ def export_ideas(file_name, elements):
 
 
 if __name__ == "__main__":
-    ideas = open_ideas("ideas.txt")
-    if not args.list and not args.delete:
-        while True:
+    try:
+        ideas = open_ideas("ideas.txt")
+    except IndexError:
+        ideas = list()
+    finally:
+        if not args.list and not args.delete:
+            while True:
+                if ideas:
+                    for index in range(len(ideas)):
+                        print(f"{index + 1}. {ideas[index]}")
+                idea = input("What is your new idea?\n")
+                ideas.append(idea)
+                export_ideas("ideas.txt", ideas)
+
+        if args.list:
             if ideas:
                 for index in range(len(ideas)):
                     print(f"{index + 1}. {ideas[index]}")
-            idea = input("What is your new idea?\n")
-            ideas.append(idea)
-            export_ideas("ideas.txt", ideas)
+            else:
+                print("There's no ideas!")
 
-    if args.list:
-        if ideas:
-            for index in range(len(ideas)):
-                print(f"{index + 1}. {ideas[index]}")
+        if args.delete:
+            if ideas:
+                try:
+                    ideas.pop(int(args.delete) - 1)
+                    export_ideas("ideas.txt", ideas)
+                except IndexError:
+                    print("There's no so many ideas!")
+            else:
+                print("There's no ideas!")

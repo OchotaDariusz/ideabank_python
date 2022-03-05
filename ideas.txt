@@ -1,1 +1,1 @@
-Pierwsza;druga;trzecia;czwarta piata;szosta;teraz szosta
+cos trzeciego;cos pierwszego
