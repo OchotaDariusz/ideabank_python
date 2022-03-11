@@ -26,6 +26,7 @@ def add_idea(ideas):
             print(f"{index + 1}. {ideas[index]}")
     idea = input("What is your new idea?\n")
     ideas.append(idea)
+    export_ideas("ideas.txt", ideas)
 
 
 def list_ideas(ideas):
@@ -55,7 +56,6 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         while True:
             add_idea(ideas)
-            export_ideas("ideas.txt", ideas)
 
     elif sys.argv[1] == "--list":
         list_ideas(ideas)
