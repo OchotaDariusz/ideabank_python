@@ -20,33 +20,45 @@ def export_ideas(file_name, elements):
         file.write(ideas + "\n")
 
 
+def add_idea(ideas):
+    if ideas:
+        for index in range(len(ideas)):
+            print(f"{index + 1}. {ideas[index]}")
+    idea = input("What is your new idea?\n")
+    ideas.append(idea)
+
+
+def list_ideas(ideas):
+    if ideas:
+        for index in range(len(ideas)):
+            print(f"{index + 1}. {ideas[index]}")
+    else:
+        print("There's no ideas!")
+
+
+def delete_idea(export_ideas, ideas):
+    try:
+        if ideas:
+            try:
+                ideas.pop(int(sys.argv[2]) - 1)
+                export_ideas("ideas.txt", ideas)
+            except IndexError:
+                raise ValueError
+        else:
+            print("There's no ideas!")
+    except ValueError:
+        print("Specify a number after --delete")
+
+
 if __name__ == "__main__":
     ideas = open_ideas("ideas.txt")
     if len(sys.argv) == 1:
         while True:
-            if ideas:
-                for index in range(len(ideas)):
-                    print(f"{index + 1}. {ideas[index]}")
-            idea = input("What is your new idea?\n")
-            ideas.append(idea)
+            add_idea(ideas)
             export_ideas("ideas.txt", ideas)
 
     elif sys.argv[1] == "--list":
-        if ideas:
-            for index in range(len(ideas)):
-                print(f"{index + 1}. {ideas[index]}")
-        else:
-            print("There's no ideas!")
+        list_ideas(ideas)
 
     elif sys.argv[1] == "--delete":
-        try:
-            if ideas:
-                try:
-                    ideas.pop(int(sys.argv[2]) - 1)
-                    export_ideas("ideas.txt", ideas)
-                except IndexError:
-                    raise ValueError
-            else:
-                print("There's no ideas!")
-        except ValueError:
-            print("Specify a number after --delete")
+        delete_idea(export_ideas, ideas)
