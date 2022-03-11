@@ -36,7 +36,7 @@ def list_ideas(ideas):
         print("There's no ideas!")
 
 
-def delete_idea(export_ideas, ideas):
+def delete_idea(ideas):
     try:
         if ideas:
             try:
@@ -61,4 +61,4 @@ if __name__ == "__main__":
         list_ideas(ideas)
 
     elif sys.argv[1] == "--delete":
-        delete_idea(export_ideas, ideas)
+        delete_idea(ideas)
